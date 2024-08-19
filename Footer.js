@@ -1,0 +1,131 @@
+// Footer.js
+import React, { useState } from 'react';
+import { View, TouchableOpacity, Text, StyleSheet, Alert } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
+import { openCamera } from './VideoRecorder';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
+import * as Location from 'expo-location';
+
+const Footer = () => {
+  const navigation = useNavigation();
+  const [userId,setUserId] = useState('');
+
+  const handlePress = async (button) => {
+    if (button === 'Alert') {
+      const storedUserId = await AsyncStorage.getItem('userId');
+      console.log(storedUserId);
+      setUserId(storedUserId);
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permission Denied', 'Location permission is required to show your location.');
+          return;
+        }
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+        const currentTime = new Date().toISOString();
+
+        try {
+          console.log(userId);
+          console.log(latitude);
+          console.log(longitude);
+          console.log(currentTime);
+          console.log(`http://3.27.158.46:3000/alert/${userId}/${latitude}/${longitude}/${currentTime}`)
+          const response = await axios.post(`http://192.168.72.149:3000/alert/${userId}/${latitude}/${longitude}/${currentTime}`);
+          console.log('Server response:', response.data);
+          
+        } catch (error) {
+          console.log(error.message);
+          Alert.alert(error.message);
+        }
+  
+
+      alert('Alert Button Pressed!');
+      }
+      catch(error)
+      {
+        Alert.alert(error.message);
+      }
+
+    } else if (button === 'Panic') {
+      const storedUserId = await AsyncStorage.getItem('userId');
+      setUserId(storedUserId);
+      try {
+        const { status } = await Location.requestForegroundPermissionsAsync();
+        if (status !== 'granted') {
+          Alert.alert('Permission Denied', 'Location permission is required to show your location.');
+          return;
+        }
+        const location = await Location.getCurrentPositionAsync({});
+        const { latitude, longitude } = location.coords;
+        const currentTime = new Date().toISOString();
+
+        try {
+          console.log(userId);
+          console.log(latitude);
+          console.log(longitude);
+          console.log(currentTime);
+          console.log(`http://3.27.158.46:3000/panic/${userId}/${latitude}/${longitude}/${currentTime}`)
+          const response = await axios.post(`http://192.168.72.149:3000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
+          console.log('Server response:', response.data);
+          
+        } catch (error) {
+          console.log(error.message);
+          Alert.alert(error.message);
+        }
+  
+
+      alert('Panic Button Pressed!');
+      }
+      catch(error)
+      {
+        Alert.alert(error.message);
+      }
+
+    } else if (button === 'Warn') {
+      navigation.navigate('Warn');
+    } else if (button === 'Record Video') {
+      openCamera();
+    }
+  };
+
+  return (
+    <View style={styles.footer}>
+      <TouchableOpacity style={styles.button} onPress={() => handlePress('Alert')}>
+        <Text>Alert</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => handlePress('Panic')}>
+        <Text>Panic</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => handlePress('Warn')}>
+        <Text>Warn</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => handlePress('Record Video')}>
+        <Text>Record Video</Text>
+      </TouchableOpacity>
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  footer: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    alignItems: 'center',
+    backgroundColor: '#f0f0f0',
+    paddingVertical: 10,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+  },
+  button: {
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    borderRadius: 5,
+    backgroundColor: '#e0e0e0',
+  },
+});
+
+export default Footer;
