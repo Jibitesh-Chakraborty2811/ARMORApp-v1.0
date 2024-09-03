@@ -25,7 +25,7 @@ const Footer = () => {
         const currentTime = new Date().toISOString();
 
         try {
-          const response = await axios.post(`http://192.168.0.112:3000/alert/${userId}/${latitude}/${longitude}/${currentTime}`);
+          const response = await axios.post(`http://192.168.72.187:5000/alert/${userId}/${latitude}/${longitude}/${currentTime}`);
           console.log('Server response:', response.data);
         } catch (error) {
           console.log(error.message);
@@ -50,7 +50,7 @@ const Footer = () => {
         const currentTime = new Date().toISOString();
 
         try {
-          const response = await axios.post(`http://192.168.0.112:3000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
+          const response = await axios.post(`http://192.168.72.187:5000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
           console.log('Server response:', response.data);
         } catch (error) {
           console.log(error.message);
@@ -70,6 +70,11 @@ const Footer = () => {
     }
   };
 
+  const openURL = (url) => {
+    Linking.openURL(url).catch((err) => console.error("Failed to open URL:", err));
+  };
+  
+
   return (
     <View style={styles.footer}>
       <TouchableOpacity style={styles.button} onPress={() => handlePress('Alert')}>
@@ -86,6 +91,11 @@ const Footer = () => {
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={() => handlePress('Call')}>
         <Text>Call</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={() => openURL('https://crimeindexagainstwomenarmor.streamlit.app/')}>
+        <Text>
+          Index
+        </Text>
       </TouchableOpacity>
     </View>
   );
@@ -104,7 +114,7 @@ const styles = StyleSheet.create({
     right: 0,
   },
   button: {
-    paddingHorizontal: 10,
+    paddingHorizontal: 5,
     paddingVertical: 10,
     borderRadius: 5,
     backgroundColor: '#e0e0e0',

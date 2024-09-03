@@ -107,8 +107,8 @@ export default function App() {
         console.log(latitude);
         console.log(longitude);
         console.log(currentTime);
-        console.log(`http://3.27.158.46:3000/update-location/${userId}/${latitude}/${longitude}/${currentTime}`)
-        const response = await axios.post(`http://192.168.72.149:3000/update-location/${userId}/${latitude}/${longitude}/${currentTime}`);
+        console.log(`http://3.27.158.46:5000/update-location/${userId}/${latitude}/${longitude}/${currentTime}`)
+        const response = await axios.post(`http://192.168.72.187:5000/update-location/${userId}/${latitude}/${longitude}/${currentTime}`);
         console.log('Server response:', response.data);
         //Alert.alert('Success', 'Location updated successfully');
       } catch (error) {

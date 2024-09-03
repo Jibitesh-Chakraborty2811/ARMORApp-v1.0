@@ -55,8 +55,8 @@ const WarnScreen = () => {
         console.log(latitude);
         console.log(longitude);
         console.log(currentTime);
-        console.log(`http://192.168.163.149:3000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
-        const response = await axios.post(`http://192.168.72.149:3000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
+        console.log(`http://192.168.163.149:5000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
+        const response = await axios.post(`http://192.168.72.187:5000/panic/${userId}/${latitude}/${longitude}/${currentTime}`);
         console.log('Server response:', response.data);
       } catch (error) {
         console.log(error.message);

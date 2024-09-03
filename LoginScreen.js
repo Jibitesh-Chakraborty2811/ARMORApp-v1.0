@@ -11,7 +11,9 @@ export default function LoginScreen({ navigation, onLoginSuccess }) {
   const handleLogin = async () => {
     try
     {
-      const response = await axios.post(`http://192.168.72.149:3000/login/${userId}/${pin}`);
+      console.log(userId);
+      console.log(pin);
+      const response = await axios.post(`http://192.168.72.187:5000/login/${userId}/${pin}`);
       if (response.status === 200) {
         await AsyncStorage.setItem('userId', userId);
         await AsyncStorage.setItem('pin', pin);
